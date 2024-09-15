@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+@font-face {
+	font-family: 'Inter';
+	src: url('/fonts/inter/Inter-VariableFont_slnt,wght.ttf');
+}
+
+:root {
+	--theme-font-family-base: 'Inter', sans-serif;
+	--theme-font-family-heading: 'Inter', sans-serif;
+	--theme-rounded-base: 6px;
+	--theme-rounded-container: 4px;
+}
+
+html,
+body {
+	@apply h-full;
+	scroll-behavior: smooth;
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+}
+
+@keyframes fade-out {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes slide-from-bottom {
+	from {
+		transform: translateY(30px);
+	}
+}
+
+@keyframes slide-to-top {
+	to {
+		transform: translateY(-30px);
+	}
+}
+
+:root::view-transition-old(root) {
+	animation:
+		90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+		300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-top;
+}
+
+:root::view-transition-new(root) {
+	animation:
+		210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+		300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-bottom;
+}
+
+[data-sonner-toast][data-styled='true'] {
+	background: rgb(var(--color-surface-500) / 1) !important;
+	color: #fff !important;
+
+	--tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width)
+		var(--tw-ring-offset-color);
+	--tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width))
+		var(--tw-ring-color);
+	box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+	--tw-ring-inset: inset;
+	--tw-ring-opacity: 1;
+	--tw-ring-color: rgb(var(--color-surface-500) / var(--tw-ring-opacity)) !important;
+	border: none !important;
+}
+[data-sonner-toast][data-type='success'] {
+	background: rgb(var(--color-success-500) / 1) !important;
+}
+[data-sonner-toast][data-type='error'] {
+	background: rgb(var(--color-error-500) / 1) !important;
+}
+[data-sonner-toast][data-type='info'] {
+	background: rgb(var(--color-secondary-500) / 1) !important;
+}
+[data-sonner-toast][data-type='warning'] {
+	background: rgb(var(--color-warning-500) / 1) !important;
+}
+/* learn page wiggle animation */
+@keyframes wiggleLeftRight {
+	0%,
+	100% {
+		left: 0;
+	}
+	25% {
+		left: -5px;
+	}
+	50% {
+		left: 5px;
+	}
+	75% {
+		left: -5px;
+	}
+}
+
+.wiggle-effect {
+	position: relative;
+	animation: wiggleLeftRight 0.5s ease-in-out forwards;
+}
+
+.svg-container svg {
+	width: 100%;
+	height: auto;
+}

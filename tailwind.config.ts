@@ -21,7 +21,13 @@ const config = {
   },
   plugins: [
     skeleton({
-      themes: { preset: ["skeleton"] }
+      themes: {
+        preset: [
+
+          { name: "skeleton", enhancements: true },
+          { name: "wintry", enhancements: true }
+        ]
+      }
     })
   ]
 } satisfies Config;

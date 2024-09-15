@@ -1,12 +1,27 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover">
+	<body data-sveltekit-preload-code="viewport" data-theme="wintry">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
+	<script>
+		function logCookie(cookie) {
+			if (cookie) {
+				document.body.setAttribute('data-theme', cookie.value);
+			} else {
+				document.body.setAttribute('data-theme', 'wintry');
+			}
+		}
+		document.cookie.split('; ').forEach((cookie) => {
+			const [name, value] = cookie.split('=');
+			if (name === 'theme') {
+				logCookie({ name, value });
+			}
+		});
+	</script>
 </html>
