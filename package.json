@@ -12,26 +12,38 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"generateDbTypes": "npx supabase gen types typescript --project-id \"wvqphurdnoheudzuywpg\" --schema public > src/lib/database.types.ts"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
+		"@skeletonlabs/skeleton": "^2.10.2",
+		"@skeletonlabs/tw-plugin": "^0.4.0",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "^9.6.0",
+		"@types/node": "^22.0.0",
+		"autoprefixer": "^10.4.19",
 		"eslint": "^9.0.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
 		"globals": "^15.0.0",
+		"postcss": "^8.4.40",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
+		"tailwindcss": "^3.4.7",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.0.0-alpha.20",
 		"vite": "^5.0.3",
 		"vitest": "^2.0.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@supabase/auth-helpers-sveltekit": "^0.13.0",
+		"@supabase/supabase-js": "^2.45.0",
+		"destr": "^2.0.3"
+	}
 }
