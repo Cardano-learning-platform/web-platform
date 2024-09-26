@@ -1,5 +1,5 @@
 <script>
-	import ResponsiveCard from '$lib/UI/layout/ResponsiveCard.svelte';
+	import ResponsiveCard from '$lib/ui/layout/ResponsiveCard.svelte';
 </script>
 
 <h2 class="py-9 text-center text-3xl font-semibold">Categories</h2>

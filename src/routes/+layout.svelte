@@ -15,10 +15,10 @@
 
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/stores';
-	import QuizModal from '$lib/Ui/components/Modal/QuizModal.svelte';
+	import QuizModal from '$lib/ui/components/Modal/QuizModal.svelte';
 
-	import Footer from '$lib/Ui/sections/Footer.svelte';
-	import Navbar from '$lib/Ui/sections/Navbar.svelte';
+	import Footer from '$lib/ui/sections/Footer.svelte';
+	import Navbar from '$lib/ui/sections/Navbar.svelte';
 
 	import '../app.postcss';
 

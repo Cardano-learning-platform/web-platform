@@ -2,7 +2,7 @@
 	import { toast } from 'svelte-sonner';
 
 	import ContactUsSchema from '$lib/schema/contactUs';
-	import Spinner from '$lib/Ui/components/Spinner';
+	import { Spinner } from '$lib/ui/components/Spinner';
 
 	let name = '';
 	let email = '';

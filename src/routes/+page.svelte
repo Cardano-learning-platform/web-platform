@@ -1,11 +1,11 @@
 <script>
-	import AboutUs from '$lib/Ui/sections/AboutUs.svelte';
-	import Hero from '$lib/Ui/sections/Hero.svelte';
-	import Featured from '$lib/Ui/sections/Featured.svelte';
-	import Pricing from '$lib/Ui/sections/Pricing.svelte';
-	import Faq from '$lib/Ui/sections/Faq.svelte';
-	import ContactUs from '$lib/Ui/sections/ContactUs.svelte';
-	import CTA from '$lib/Ui/sections/CTA.svelte';
+	import AboutUs from '$lib/ui/sections/AboutUs.svelte';
+	import Hero from '$lib/ui/sections/Hero.svelte';
+	import Featured from '$lib/ui/sections/Featured.svelte';
+	import Pricing from '$lib/ui/sections/Pricing.svelte';
+	import Faq from '$lib/ui/sections/Faq.svelte';
+	import ContactUs from '$lib/ui/sections/ContactUs.svelte';
+	import CTA from '$lib/ui/sections/CTA.svelte';
 
 	export let data;
 	const courses = []; // data.props.courses;

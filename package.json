@@ -50,6 +50,7 @@
 		"iconify-icon": "^2.1.0",
 		"siema": "^1.5.1",
 		"svelte-sonner": "^0.3.28",
+		"sveltekit-search-params": "^3.0.0",
 		"sveltekit-view-transition": "^0.5.3",
 		"zod": "^3.23.8"
 	}
