@@ -54,7 +54,8 @@
 					<div class="flex flex-shrink-0 items-center">
 						<a href="/">
 							<div class=" scale-110">
-								<img src="/logo.svg" class="w-full max-w-[2rem] scale-125" alt="logo" />
+								<div class="w-48 scale-110 font-black">Learn Cardano</div>
+								<!-- <img src="/logo.svg" class="w-full max-w-[2rem] scale-125" alt="logo" /> -->
 							</div>
 						</a>
 					</div>
@@ -102,7 +103,7 @@
 								/>
 							</button>
 							<span class="badge font-light"
-								>{truncate(userData?.first_name ?? data?.session?.user.email, 5)}</span
+								>{truncate(userData?.first_name ?? data?.session?.user.email, 3)}</span
 							>
 							<iconify-icon
 								icon="tabler:chevron-down"
