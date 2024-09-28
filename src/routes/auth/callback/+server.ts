@@ -23,7 +23,7 @@ export const GET = async (event) => {
 
 			const userInformation = await userProvider.getUserById(data?.user?.id);
 			const fullName = data?.user?.user_metadata?.full_name.split(' ');
-
+			console.log({ userInformation })
 			if (!userInformation?.data?.first_name && !userInformation?.data?.last_name) {
 				const { data: updatedUserInformation } = await userProvider.updateUserById({
 					userId: data?.user?.id,
@@ -70,6 +70,7 @@ export const GET = async (event) => {
 			}
 			error = !!exchangeError;
 		} catch (error) {
+			console.log({ error })
 			// logger.error('Error exchanging code for session', error);
 			redirect(303, '/auth/auth-code-error');
 		}
