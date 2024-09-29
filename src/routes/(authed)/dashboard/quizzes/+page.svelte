@@ -9,8 +9,8 @@
 	import { page } from '$app/stores';
 	import { displayTime } from '$lib/helpers/formatDate.js';
 	import QuizSummeryGenerator from '$lib/services/dashboard/quiz/data-summery';
-	import Skeleton from '$lib/UI/components/Skeleton/index.svelte';
-	import Timeline from '$lib/UI/components/Timeline/quiz.svelte';
+	import Skeleton from '$lib/ui/components/Skeleton/index.svelte';
+	import Timeline from '$lib/ui/components/Timeline/quiz.svelte';
 
 	export let data;
 	const summeryGenerator = new QuizSummeryGenerator();

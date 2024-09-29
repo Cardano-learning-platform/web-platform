@@ -4,9 +4,9 @@
 
 	import DashboardSummaryGenerator from '$lib/services/dashboard/home/data-summery';
 	// import Onboarding from '$lib/services/onboarding/data-provider';
-	import { LineChart as Bar } from '$lib/UI/components/LineChart';
-	import { Skeleton } from '$lib/UI/components/Skeleton';
-	import { Timeline } from '$lib/UI/components/Timeline';
+	import { LineChart as Bar } from '$lib/ui/components/LineChart';
+	import { Skeleton } from '$lib/ui/components/Skeleton';
+	import { Timeline } from '$lib/ui/components/Timeline';
 
 	export let data;
 	const totalEnrolledCourses = data.totalEnrolledCourses;
