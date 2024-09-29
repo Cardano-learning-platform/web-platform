@@ -1,6 +1,6 @@
 import { DataProvider } from '$lib/services/dashboard/quiz/data-provider';
-export const load = async ({ locals: { userInformation, getSession, supabase } }) => {
-	const session = await getSession();
+export const load = async ({ locals: { userInformation, safeGetSession, supabase } }) => {
+	const { session } = await safeGetSession();
 	if (!session) return new Response('Unauthorized', { status: 401 });
 
 	const userId = userInformation?.id;

@@ -1,8 +1,9 @@
 import DashboardService from '$lib/services/dashboard/home/data-provider';
 // import OnboardingDataProvider from '$lib/services/onboarding/data-provider.js';
 
-export const load = async ({ locals: { userInformation, supabase, getSession }, parent, cookies }) => {
-	const session = await getSession();
+export const load = async ({ locals: { userInformation, supabase, safeGetSession }, parent, cookies }) => {
+	const { session } = await safeGetSession();
+
 	if (!session) return new Response('Unauthorized', { status: 401 });
 
 	const enrolledCourses = (await parent()).enrolledCourses;

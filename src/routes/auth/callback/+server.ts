@@ -16,14 +16,14 @@ export const GET = async (event) => {
 	const userProvider = new UserService(supabase);
 	// const emailProvider = new EmailService();
 	let error = false;
-
+	console.dir(event)
 	if (code) {
 		try {
 			const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
 			const userInformation = await userProvider.getUserById(data?.user?.id);
 			const fullName = data?.user?.user_metadata?.full_name.split(' ');
-			console.log({ userInformation })
+
 			if (!userInformation?.data?.first_name && !userInformation?.data?.last_name) {
 				const { data: updatedUserInformation } = await userProvider.updateUserById({
 					userId: data?.user?.id,
@@ -34,28 +34,27 @@ export const GET = async (event) => {
 						last_name: fullName[1]
 					}
 				});
-				const { error } = await emailProvider.createContact({
-					email: data?.user?.email,
-					firstName: fullName[0],
-					lastName: fullName[1] && "",
-					source: 'user_signup',
-					userGroup: 'user',
-					userId: data?.user?.id
-				})
+				// const { error } = await emailProvider.createContact({
+				// 	email: data?.user?.email,
+				// 	firstName: fullName[0],
+				// 	lastName: fullName[1] && "",
+				// 	source: 'user_signup',
+				// 	userGroup: 'user',
+				// 	userId: data?.user?.id
+				// })
 
-				if (error) {
-					// logger.error(`Error creating contact in Loops for email ${data?.user?.email}`, error);
-				}
-				const { error: eventError } = await emailProvider.sendEvent({
-					email: data?.user?.email,
-					userId: data?.user?.id,
-					eventName: 'user_signed_up'
-				});
+				// if (error) {
+				// logger.error(`Error creating contact in Loops for email ${data?.user?.email}`, error);
+				// }
+				// const { error: eventError } = await emailProvider.sendEvent({
+				// 	email: data?.user?.email,
+				// 	userId: data?.user?.id,
+				// 	eventName: 'user_signed_up'
+				// });
 
-				if (eventError) {
-					// logger.error(`Error sending event (user_signed_up) in Loops for email ${data?.user?.email}`, eventError);
-				}
-
+				// if (eventError) {
+				// logger.error(`Error sending event (user_signed_up) in Loops for email ${data?.user?.email}`, eventError);
+				// }
 				cookies.set('userInformation', JSON.stringify(updatedUserInformation), {
 					path: '/',
 					httpOnly: false,
@@ -70,7 +69,7 @@ export const GET = async (event) => {
 			}
 			error = !!exchangeError;
 		} catch (error) {
-			console.log({ error })
+			console.log({ error }, 'meh')
 			// logger.error('Error exchanging code for session', error);
 			redirect(303, '/auth/auth-code-error');
 		}
@@ -82,3 +81,5 @@ export const GET = async (event) => {
 	// return the user to an error page with instructions
 	redirect(303, '/auth/auth-code-error');
 };
+
+

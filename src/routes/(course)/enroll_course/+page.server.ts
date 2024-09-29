@@ -2,10 +2,10 @@ import { redirect } from '@sveltejs/kit';
 
 import CourseProvider from '$lib/services/course/data-provider';
 
-export const load = async ({ url, locals: { supabase, userInformation, getSession } }) => {
+export const load = async ({ url, locals: { supabase, userInformation, safeGetSession } }) => {
 	const courseProvider = new CourseProvider(supabase);
 	const userId = userInformation?.id;
-	const session = await getSession();
+	const { session } = await safeGetSession();
 	const courseId = Number(url.searchParams.get('courseId'));
 	const isCourseIdValid = !Number.isNaN(courseId);
 
