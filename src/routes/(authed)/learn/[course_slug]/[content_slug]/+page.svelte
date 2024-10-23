@@ -28,7 +28,9 @@
 	// Constants
 	const updatingInterval = 10000; // 10 seconds
 	const courseId = data.course && data?.course.id;
-	const courseCategory = data.course && data?.course.category[0].categories?.category_title;
+	const courseCategory =
+		data.course && data?.course.category[0]?.categories?.category?.category_title;
+	// data.course && data?.course.category[0].categories?.category_title;
 	const userId = data.userInformation?.id;
 	const drawerStore = getDrawerStore();
 	const analyticsProvider = new AnalyticsService();
@@ -225,7 +227,6 @@
 			use:tocCrawler={{ key: $page.url, mode: 'generate' }}
 		>
 			<h1>{courseContent?.lesson_title}</h1>
-
 			{#await processContent(courseContent?.lesson_content) then lessonContentData}
 				<div>
 					<!--  eslint-disable-next-line svelte/no-at-html-tags -->
@@ -245,7 +246,6 @@
 			transform: perspective(600px) rotateY(1turn);
 		}
 	}
-
 	.rotate {
 		animation: rotate 2s linear infinite;
 	}

@@ -31,7 +31,7 @@
 
 	$: previousAndNextLesson = data?.props?.previousAndNextLesson;
 
-	const onboardingStatus = data.onboardingStatus;
+	// const onboardingStatus = data.onboardingStatus;
 	let isMobileDrawerOpen = false;
 	// const onboarding = new Onboarding(data?.supabase);
 

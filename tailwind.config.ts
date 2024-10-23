@@ -20,6 +20,7 @@ const config = {
     extend: {},
   },
   plugins: [
+    require('@tailwindcss/typography'),
     skeleton({
       themes: {
         preset: [
