@@ -4,26 +4,26 @@ import { GoogleGenerativeAIStream, StreamingTextResponse } from 'ai';
 
 
 import { GOOGLE_GEN_AI_API_KEY } from '$env/static/private';
-import { ratelimit } from '$lib/utils/rateLimit';
+// import { ratelimit } from '$lib/utils/rateLimit';
 import type { RequestHandler } from './$types';
 
 const genAI = new GoogleGenerativeAI(GOOGLE_GEN_AI_API_KEY);
 
 
-export const POST = (async ({ request, locals: { getSession } }) => {
+export const POST = (async ({ request, locals: { safeGetSession } }) => {
 
-	const session = await getSession();
+	const session = await safeGetSession();
 
-	if (!session?.user.id) {
+	if (!session?.user?.id) {
 		error(401, 'unauthorized');
 	}
 
-	const { success } = await ratelimit.ai.limit(session.user.id);
+	// const { success } = await ratelimit.ai.limit(session.user.id);
 
-	if (!success) {
-		// return error if user has exceeded the rate limit
-		error(429, 'Too many requests try again later');
-	}
+	// if (!success) {
+	// return error if user has exceeded the rate limit
+	// error(429, 'Too many requests try again later');
+	// }
 	const data = await request.json();
 
 	const { subject, question } = JSON.parse(data.prompt) as {

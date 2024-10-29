@@ -46,6 +46,7 @@
 	"type": "module",
 	"dependencies": {
 		"@floating-ui/dom": "^1.6.11",
+		"@google/generative-ai": "^0.21.0",
 		"@supabase/ssr": "^0.5.1",
 		"@supabase/supabase-js": "^2.45.0",
 		"@types/siema": "^1.4.11",

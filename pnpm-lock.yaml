@@ -8,6 +8,9 @@ dependencies:
   '@floating-ui/dom':
     specifier: ^1.6.11
     version: 1.6.11
+  '@google/generative-ai':
+    specifier: ^0.21.0
+    version: 0.21.0
   '@supabase/ssr':
     specifier: ^0.5.1
     version: 0.5.1(@supabase/supabase-js@2.45.0)
@@ -602,6 +605,11 @@ packages:
       esbuild-runner: 2.2.2(esbuild@0.21.5)
     dev: true
     optional: true
+
+  /@google/generative-ai@0.21.0:
+    resolution: {integrity: sha512-7XhUbtnlkSEZK15kN3t+tzIMxsbKm/dSkKBFalj+20NvPKe1kBY7mR2P7vuijEn+f06z5+A8bVGKO0v39cr6Wg==}
+    engines: {node: '>=18.0.0'}
+    dev: false
 
   /@hapi/hoek@9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
