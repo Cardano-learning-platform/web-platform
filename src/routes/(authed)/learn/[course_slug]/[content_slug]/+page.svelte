@@ -19,6 +19,7 @@
 	import { trackReadingTime } from '$lib/utils/trackReadingTime';
 	import { customTooltip, selectedText, hidePopup, createTooltip } from './actions';
 	import { syntheticForm, processContent, explainMenu, tooltipContents } from './helpers';
+	import CodeDisplay from './components/codeDisplay.svelte';
 	export let data;
 
 	const { input, handleSubmit, completion, error, isLoading } = useCompletion({
@@ -42,7 +43,7 @@
 	$: courseContent = data.props?.lesson;
 	$: isVideo = data.props?.lesson?.lesson_type === 'video';
 	$: isText = data.props?.lesson?.lesson_type === 'text';
-
+	$: isCode = data.props?.lesson?.lesson_type === 'code';
 	const initializeReadingInformation = async ({
 		_lesson_id,
 		_reading_time,
@@ -207,6 +208,12 @@
 	<ProgressBar value={undefined} height="h-1" class="fixed top-0 z-50 " />
 {/if}
 
+{#if isCode}
+	<div class="relative overflow-hidden">
+		<CodeDisplay {courseContent} />
+	</div>
+{/if}
+
 {#if isVideo}
 	<video controls>
 		<source src={courseContent?.lesson_content} type="video/mp4" />
@@ -215,7 +222,7 @@
 {/if}
 
 {#if isText}
-	<div class="relative overflow-hidden">
+	<div class="relative">
 		<TableOfContents
 			class="card fixed z-10 hidden max-w-xs p-10 transition-all duration-300 md:variant-ghost-surface hover:opacity-100 md:-right-28 md:top-20 md:block md:opacity-10 hover:md:right-10"
 		/>

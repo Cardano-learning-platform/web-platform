@@ -23,7 +23,8 @@ class DataProvider {
 					lesson_title,
 					lesson_content,
 					slug,
-					lesson_type
+					lesson_type,
+					initial_code
 					`
 				)
 				.eq(lessonIdOrSlugKey, lessonIdOrSlug)
@@ -32,6 +33,7 @@ class DataProvider {
 
 			return { data: lessonData, error: lessonError };
 		} catch (error) {
+
 			if (error instanceof Error) {
 				return { data: null, error: error.message };
 			}

@@ -47,8 +47,8 @@
 	"dependencies": {
 		"@floating-ui/dom": "^1.6.11",
 		"@google/generative-ai": "^0.21.0",
-		"@supabase/ssr": "^0.5.1",
-		"@supabase/supabase-js": "^2.45.0",
+		"@supabase/ssr": "^0.5.2",
+		"@supabase/supabase-js": "^2.47.9",
 		"@types/siema": "^1.4.11",
 		"ai": "^3.4.7",
 		"base64-arraybuffer": "^1.0.2",
@@ -57,6 +57,7 @@
 		"destr": "^2.0.3",
 		"dexie": "^4.0.8",
 		"iconify-icon": "^2.1.0",
+		"monaco-editor": "^0.52.0",
 		"rehype-sanitize": "^6.0.0",
 		"rehype-stringify": "^10.0.1",
 		"remark-parse": "^11.0.0",

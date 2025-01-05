@@ -21,6 +21,7 @@ export const syntheticForm = ({
 	form.addEventListener('submit', handleSubmit);
 	return form;
 };
+export const removeCodeBlock = (code: string) => code.split('\n').slice(1, -1).join('\n');
 
 export const processContent = async (content: string | null | undefined) =>
 	unified()
