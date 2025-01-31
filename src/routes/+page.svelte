@@ -1,6 +1,6 @@
 <script>
-	// import AboutUs from '$lib/ui/sections/About.svelte';
-	import Hero from '$lib/ui/sections/Hero.svelte';
+	import AboutUs from '../../src/lib/ui/sections/About.svelte';
+	import Hero from '../../src/lib/ui/sections/Hero.svelte';
 	import Featured from '$lib/ui/sections/Featured.svelte';
 	import Pricing from '$lib/ui/sections/Pricing.svelte';
 	import Faq from '$lib/ui/sections/Faq.svelte';
@@ -13,7 +13,7 @@
 
 <Hero />
 <div class="z-40">
-	<!-- <AboutUs /> -->
+	<AboutUs />
 	<Featured {courses} />
 	<Pricing />
 	<Faq />
