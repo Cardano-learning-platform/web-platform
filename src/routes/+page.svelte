@@ -1,5 +1,5 @@
 <script>
-	import AboutUs from '$lib/ui/sections/AboutUs.svelte';
+	import AboutUs from '$lib/ui/sections/About.svelte';
 	import Hero from '$lib/ui/sections/Hero.svelte';
 	import Featured from '$lib/ui/sections/Featured.svelte';
 	import Pricing from '$lib/ui/sections/Pricing.svelte';
