@@ -8,7 +8,7 @@ export const load = async ({ locals: { userInformation, supabase, safeGetSession
 
 	const enrolledCourses = (await parent()).enrolledCourses;
 	const userId = userInformation?.id;
-	console.log(userId)
+	// console.log(userId)
 	// const onboardingDataProvider = new OnboardingDataProvider(supabase);
 	const dataProvider = new DashboardService(supabase);
 
@@ -22,11 +22,11 @@ export const load = async ({ locals: { userInformation, supabase, safeGetSession
 
 	const getWeeklyCourses = async () => dataProvider.getWeeklyCourses(userId);
 
-	console.log('enrolledCourses', enrolledCourses);
-	console.log(await getOneWeekOfHistory());
-	console.log(await getTimeSpentLearning());
-	console.log(await getRecentCourses());
-	console.log(await getWeeklyCourses());
+	// console.log('enrolledCourses', enrolledCourses);
+	// console.log(await getOneWeekOfHistory());
+	// console.log(await getTimeSpentLearning());
+	// console.log(await getRecentCourses());
+	// console.log(await getWeeklyCourses());
 	return {
 		totalEnrolledCourses: enrolledCourses?.length ?? 0,
 		onboardingStatus: null,// onboardingProgress.data,
