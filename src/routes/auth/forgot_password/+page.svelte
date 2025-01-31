@@ -3,7 +3,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import forgotPasswordSchema from '$lib/schema/forgetPassword';
-	import { Spinner } from '$lib/ui/components/Spinner';
+	// import { Spinner } from '$lib/ui/components/Spinner';
 
 	export let data;
 	const toastStore = getToastStore();
@@ -52,7 +52,7 @@
 					<div class="mt-6 flex gap-4">
 						<button class="variant-filled-primary btn w-full" type="submit" name="login">
 							{#if $delayed}
-								<Spinner />
+								loading
 							{/if}
 							Reset password
 						</button>
