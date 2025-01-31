@@ -13,7 +13,7 @@ export default defineConfig({
 		rollupOptions: {
 			output: {
 				manualChunks: {
-					monaco: ['monaco-editor']
+					// monaco: ['monaco-editor']
 				}
 			}
 		}
