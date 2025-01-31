@@ -3,7 +3,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import updatePasswordSchema from '$lib/schema/updatePassword';
-	import { Spinner } from '$lib/UI/components/Spinner';
+	import { Spinner } from '$lib/ui/components/Spinner';
 
 	export let data;
 	const toastStore = getToastStore();

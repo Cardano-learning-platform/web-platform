@@ -7,7 +7,7 @@
 
 	import { page } from '$app/stores';
 	import type { Database } from '$lib/database.types';
-	import Skeleton from '$lib/UI/components/Skeleton/index.svelte';
+	import Skeleton from '$lib/ui/components/Skeleton/index.svelte';
 
 	export let isMobileChapterDrawerOpen: boolean;
 

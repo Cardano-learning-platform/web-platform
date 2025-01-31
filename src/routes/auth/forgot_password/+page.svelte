@@ -3,7 +3,7 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import forgotPasswordSchema from '$lib/schema/forgetPassword';
-	import { Spinner } from '$lib/UI/components/Spinner';
+	import { Spinner } from '$lib/ui/components/Spinner';
 
 	export let data;
 	const toastStore = getToastStore();
