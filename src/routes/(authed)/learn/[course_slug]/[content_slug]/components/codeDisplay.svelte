@@ -40,7 +40,7 @@
 	const makeRequest = async () => {
 		isRunning = true;
 		try {
-			const response = await fetch(`${PUBLIC_BACKEND_ENDPOINT}api/exercise/nft-burn`, {
+			const response = await fetch('/api/proxy/nft-burn', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
