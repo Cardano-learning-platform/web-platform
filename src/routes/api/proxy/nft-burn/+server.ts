@@ -19,11 +19,12 @@ export async function POST({ request }) {
 
 
         const result = await response.json();
+        console.log({ result })
 
 
         return json(result);
     } catch (error) {
-        console.error('Proxy error:', error);
+        console.error('Proxy error:', { error });
         return json({
             success: false,
             error: `Proxy error: ${error.message}`

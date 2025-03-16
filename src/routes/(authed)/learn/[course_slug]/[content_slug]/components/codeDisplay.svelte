@@ -3,7 +3,7 @@
 	import type * as Monaco from 'monaco-editor/esm/vs/editor/editor.api';
 	import { processContent, removeCodeBlock } from '../helpers';
 	import { PUBLIC_BACKEND_ENDPOINT } from '$env/static/public';
-
+	import { validatePlutusCode, type ValidationResult } from '$lib/helpers/codeValidator';
 	export let courseContent: any;
 
 	let editor: Monaco.editor.IStandaloneCodeEditor;
@@ -12,7 +12,16 @@
 	let terminalContainer: HTMLElement;
 	let terminalOutput: { success: boolean; message: string } = { success: true, message: '' };
 	let isRunning = false;
-
+	let buildTimestamp: string | null = null;
+	let buildStatus: string = 'idle';
+	let progress: number = 0;
+	let eventSource: EventSource | null = null;
+	let outputLines: string[] = [];
+	let errorLines: string[] = [];
+	let errorDetails: any = null;
+	let validationResult: ValidationResult | null = null;
+	let showValidationModal = false;
+	let isValidating = false;
 	let initialCode = removeCodeBlock(courseContent?.initial_code);
 
 	onMount(async () => {
@@ -37,10 +46,120 @@
 		editor?.dispose();
 	});
 
+	function connectToSSE(timestamp: string) {
+		// Close any existing connection
+		if (eventSource) {
+			eventSource.close();
+		}
+
+		// Reset output arrays and state
+		outputLines = [];
+		errorLines = [];
+		errorDetails = null;
+
+		// Connect to SSE endpoint
+		eventSource = new EventSource(`${PUBLIC_BACKEND_ENDPOINT}api/build-status/${timestamp}`);
+
+		eventSource.onmessage = (event) => {
+			try {
+				const data = JSON.parse(event.data);
+
+				// Update build status
+				if (data.status) {
+					buildStatus = data.status;
+				}
+
+				// Update progress
+				if (data.progress) {
+					progress = data.progress;
+				}
+
+				// Add output line if present
+				if (data.outputLine) {
+					outputLines = [...outputLines, data.outputLine];
+				}
+
+				// Add error line if present
+				if (data.errorLine) {
+					errorLines = [...errorLines, data.errorLine];
+				}
+
+				// Handle error object
+				if (data.error) {
+					errorDetails = data.error;
+					errorLines = [...errorLines, data.error.message || JSON.stringify(data.error)];
+				}
+
+				// Update terminal message based on status
+				if (data.message) {
+					terminalOutput = {
+						success: buildStatus !== 'failed',
+						message: data.message
+					};
+				}
+
+				// Handle build completion
+				if (data.status === 'completed' || data.status === 'failed') {
+					isRunning = false;
+
+					if (data.status === 'completed' && !errorDetails) {
+						terminalOutput = { success: true, message: 'Build completed successfully!' };
+					} else if (data.status === 'failed' || errorDetails) {
+						// If we have error details or status is failed, show error message
+						terminalOutput = {
+							success: false,
+							message:
+								errorDetails?.message || data.error?.message || 'Build failed. See errors above.'
+						};
+					}
+
+					// Close connection
+					eventSource?.close();
+					eventSource = null;
+				}
+			} catch (err) {
+				console.error('Error parsing SSE data:', err);
+			}
+		};
+
+		eventSource.onerror = (error) => {
+			console.error('SSE connection error:', error);
+
+			// EventSource will automatically try to reconnect
+			terminalOutput = {
+				success: false,
+				message: 'Connection error. Attempting to reconnect...'
+			};
+		};
+	}
+	const validateCode = () => {
+		isValidating = true;
+		const code = editor.getValue();
+		validationResult = validatePlutusCode(code);
+
+		if (!validationResult.isValid) {
+			showValidationModal = true;
+			terminalOutput = {
+				success: false,
+				message: 'Code validation failed. Please fix errors before running.'
+			};
+		} else {
+			showValidationModal = false;
+			// If validation passed, run the code
+			makeRequest();
+		}
+		isValidating = false;
+	};
+
+	// Close the validation modal
+	const closeValidationModal = () => {
+		showValidationModal = false;
+	};
+
 	const makeRequest = async () => {
 		isRunning = true;
 		try {
-			const response = await fetch('/api/proxy/nft-burn', {
+			const response = await fetch(`${PUBLIC_BACKEND_ENDPOINT}api/exercise/nft-burn`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -52,9 +171,15 @@
 
 			const result = await response.json();
 
-			if (result.success) {
+			if (result.timestamp) {
+				buildTimestamp = result.timestamp;
+				connectToSSE(result.timestamp);
+			} else if (result.success) {
+				// Fall back to old behavior if no timestamp
+				isRunning = false;
 				terminalOutput = { success: true, message: 'Success!!!' };
 			} else {
+				isRunning = false;
 				if (result.errorOutput) {
 					terminalOutput = { success: false, message: result.errorOutput.message };
 				} else {
@@ -94,7 +219,7 @@
 					<span>Terminal Output</span>
 				</div>
 				<button
-					on:click={makeRequest}
+					on:click={validateCode}
 					disabled={isRunning}
 					class="btn variant-filled-success"
 					class:opacity-50={isRunning}
@@ -113,14 +238,84 @@
 						/>
 					</p>
 				{:else}
-					<p class="p-2 {terminalOutput.success ? 'text-green-400' : 'text-red-400'} font-mono">
+					<p class={terminalOutput.success ? 'text-green-400' : 'text-red-400'}>
 						{terminalOutput.message || 'Terminal output...'}
 					</p>
+
+					{#if errorDetails && errorDetails.file}
+						<div class="mt-2">
+							<p class="text-red-400">
+								Error in {errorDetails.file}
+								{#if errorDetails.line}
+									at line {errorDetails.line}
+								{/if}
+							</p>
+						</div>
+					{/if}
 				{/if}
 			</div>
 		</div>
 	</div>
 </div>
+{#if showValidationModal}
+	<div class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+		<div class="bg-surface-800 rounded-lg shadow-xl w-3/4 max-w-3xl max-h-[80vh] overflow-y-auto">
+			<div class="p-4 border-b border-surface-700 flex justify-between items-center">
+				<h2 class="text-xl font-semibold text-surface-50">Code Validation Results</h2>
+				<button on:click={closeValidationModal} class="text-surface-400 hover:text-surface-50">
+					<iconify-icon icon="carbon:close" width="24" height="24" />
+				</button>
+			</div>
+
+			<div class="p-4">
+				<h3 class="text-lg text-red-400 mb-3">
+					Found {validationResult?.errors.length} issue{validationResult?.errors.length === 1
+						? ''
+						: 's'}
+				</h3>
+
+				<div class="space-y-3">
+					{#each validationResult?.errors || [] as error}
+						<div class="bg-surface-700 rounded p-3">
+							<h4 class="font-medium text-red-300">{error.message}</h4>
+							{#if error.details}
+								<p class="text-sm text-surface-300 mt-1">{error.details}</p>
+							{/if}
+
+							{#if error.lines && error.lines.length > 0}
+								<div class="mt-2 text-sm">
+									<p class="text-surface-300">Found at lines:</p>
+									<ul class="list-disc pl-5 mt-1 text-surface-400">
+										{#each error.lines as line}
+											<li>
+												Line {line.lineNumber}:
+												<code class="bg-surface-800 px-1 py-0.5 rounded">{line.content}</code>
+											</li>
+										{/each}
+									</ul>
+								</div>
+							{/if}
+
+							{#if error.suggestion}
+								<div class="mt-2">
+									<p class="text-sm text-surface-300">Suggested implementation:</p>
+									<pre
+										class="bg-surface-900 p-2 rounded text-xs overflow-x-auto mt-1 text-green-300">{error.suggestion}</pre>
+								</div>
+							{/if}
+						</div>
+					{/each}
+				</div>
+
+				<div class="mt-4 flex justify-end">
+					<button on:click={closeValidationModal} class="btn variant-filled-surface">
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <style>
 	:global(body) {
